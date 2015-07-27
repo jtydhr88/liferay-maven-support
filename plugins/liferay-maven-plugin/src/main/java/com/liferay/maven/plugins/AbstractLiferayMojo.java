@@ -255,6 +255,12 @@ public abstract class AbstractLiferayMojo extends AbstractMojo {
 		return toClassLoader(getProjectClassPath());
 	}
 
+	protected ClassLoader getProjectClassLoader(Dependency[] dependencies)
+		throws Exception {
+
+		return toClassLoader(getProjectClassPath(dependencies));
+	}
+
 	protected List<String> getProjectClassPath() throws Exception {
 		List<String> projectClassPath = new ArrayList<String>();
 
@@ -315,6 +321,18 @@ public abstract class AbstractLiferayMojo extends AbstractMojo {
 
 		for (String path : projectClassPath) {
 			getLog().debug("\t" + path);
+		}
+
+		return projectClassPath;
+	}
+
+	protected List<String> getProjectClassPath(Dependency[] dependencies)
+		throws Exception {
+
+		List<String> projectClassPath = getProjectClassPath();
+
+		for (Dependency dependency : dependencies) {
+			addDependencyToClassPath(projectClassPath, dependency);
 		}
 
 		return projectClassPath;

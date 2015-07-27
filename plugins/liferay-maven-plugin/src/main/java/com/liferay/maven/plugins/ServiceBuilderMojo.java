@@ -164,9 +164,22 @@ public class ServiceBuilderMojo extends AbstractLiferayMojo {
 		args[27] =
 			"service.build.number.increment=" + serviceBuildNumberIncrement;
 
+		Dependency serviceBuilderDependency =
+			createDependency(
+				"com.liferay", "com.liferay.portal.tools.service.builder",
+				"1.0.25", "", "jar");
+
+		Dependency freemarkerDependency =
+			createDependency(
+				"org.freemarker", "freemarker", "2.3.23", "", "jar");
+
+		Dependency[] dependencies = {
+			serviceBuilderDependency, freemarkerDependency
+		};
+
 		executeTool(
-			"com.liferay.portal.tools.servicebuilder.ServiceBuilder",
-			getProjectClassLoader(), args);
+			"com.liferay.portal.tools.service.builder.ServiceBuilder",
+			getProjectClassLoader(dependencies), args);
 
 		if (tempServiceFile != null) {
 			FileUtil.delete(tempServiceFile);
